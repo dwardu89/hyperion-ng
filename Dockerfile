@@ -6,7 +6,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     wget -qO /tmp/hyperion.pub.key https://apt.hyperion-project.org/hyperion.pub.key && \
     gpg --dearmor -o - /tmp/hyperion.pub.key > /usr/share/keyrings/hyperion.pub.gpg && \
     echo "deb [signed-by=/usr/share/keyrings/hyperion.pub.gpg] https://apt.hyperion-project.org/ bullseye main" > /etc/apt/sources.list.d/hyperion.list && \
-    wget -qO /tmp/hyperion.nightly.pub.key https://nightly.apt.hyperion-project.org/hyperion.pub.key && \
+    wget -qO- https://apt.hyperion-project.org/hyperion.pub.key | sudo gpg --dearmor -o /usr/share/keyrings/hyperion.pub.gpg && \
     gpg --dearmor -o - /tmp/hyperion.pub.key > /usr/share/keyrings/hyperion.nightly.pub.gpg && \
     echo "deb [signed-by=/usr/share/keyrings/hyperion.nightly.pub.gpg] https://nightly.apt.hyperion-project.org/ bullseye main" > /etc/apt/sources.list.d/hyperion.nightly.list.disabled && \
     apt-get update && \
