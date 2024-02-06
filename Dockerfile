@@ -4,13 +4,11 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
     apt-get install -y wget gpg sudo
 
-RUN wget -qO- https://apt.hyperion-project.org/hyperion.pub.key | sudo gpg --dearmor -o /usr/share/keyrings/hyperion.pub.gpg
+RUN apt-get update
 
-RUN echo "deb [signed-by=/usr/share/keyrings/hyperion.pub.gpg] https://apt.hyperion-project.org/ $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hyperion.list
+RUN curl -sSL https://releases.hyperion-project.org/install | bash
 
-RUN apt-get update && \
-    apt-get install -y hyperion && \
-    apt-get -y --purge autoremove gpg && \
+RUN apt-get -y --purge autoremove gpg && \
     apt-get clean
 
 
