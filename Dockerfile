@@ -11,7 +11,7 @@ RUN wget -qO /tmp/hyperion.pub.key https://apt.hyperion-project.org/hyperion.pub
     # gpg --dearmor -o - /tmp/hyperion.pub.key > /usr/share/keyrings/hyperion.nightly.pub.gpg && \
     # echo "deb [signed-by=/usr/share/keyrings/hyperion.nightly.pub.gpg] https://nightly.apt.hyperion-project.org/ bullseye main" > /etc/apt/sources.list.d/hyperion.nightly.list.disabled && \
 RUN  apt-get update && \
-    apt-get install -y hyperion && \
+    apt-get install -y libpython3.9 hyperion && \
     apt-get -y --purge autoremove gpg && \
     apt-get clean
 
