@@ -3,7 +3,7 @@ FROM debian:bookworm
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
     apt-get install -y wget gpg sudo && \
-    sudo apt-get update && sudo apt-get install wget gpg apt-transport-https lsb-release && \
+    sudo apt-get update && sudo apt-get install -y wget gpg apt-transport-https lsb-release && \
     wget -qO /tmp/hyperion.pub.key https://releases.hyperion-project.org/hyperion.pub.key && \
     gpg --dearmor -o - /tmp/hyperion.pub.key > /usr/share/keyrings/hyperion.pub.gpg && \
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hyperion.pub.gpg] https://apt.releases.hyperion-project.org/ $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hyperion.list && \
