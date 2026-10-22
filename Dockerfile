@@ -2,16 +2,14 @@ FROM debian:bullseye
 
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
-    apt-get install -y wget gpg sudo
-
-RUN wget -qO /tmp/hyperion.pub.key https://apt.hyperion-project.org/hyperion.pub.key && \
+    apt-get install -y wget gpg sudo && \
+    sudo apt-get update && sudo apt-get install wget gpg apt-transport-https lsb-release && \
+    wget -qO /tmp/hyperion.pub.key https://releases.hyperion-project.org/hyperion.pub.key && \
     gpg --dearmor -o - /tmp/hyperion.pub.key > /usr/share/keyrings/hyperion.pub.gpg && \
-    echo "deb [signed-by=/usr/share/keyrings/hyperion.pub.gpg] https://apt.hyperion-project.org/ bullseye main" > /etc/apt/sources.list.d/hyperion.list
-    # wget -qO /tmp/hyperion.nightly.pub.key https://nightly.apt.hyperion-project.org/hyperion.pub.key && \
-    # gpg --dearmor -o - /tmp/hyperion.pub.key > /usr/share/keyrings/hyperion.nightly.pub.gpg && \
-    # echo "deb [signed-by=/usr/share/keyrings/hyperion.nightly.pub.gpg] https://nightly.apt.hyperion-project.org/ bullseye main" > /etc/apt/sources.list.d/hyperion.nightly.list.disabled && \
-RUN  apt-get update && \
-    apt-get install -y libpython3.9 hyperion && \
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hyperion.pub.gpg] https://apt.releases.hyperion-project.org/ $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hyperion.list && \
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hyperion.pub.gpg] https://nightly.apt.releases.hyperion-project.org/ $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hyperion.nightly.list && \
+    apt-get update && \
+    apt-get install -y hyperion && \
     apt-get -y --purge autoremove gpg && \
     apt-get clean
 
